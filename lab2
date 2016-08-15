@@ -1,0 +1,55 @@
+#name: reed zhang date: 9/2/14
+#
+from pickle import dump
+
+print('##name: reed zhang##   ##date: 9/9/14##')
+wordlist=open('words.txt').read().split()
+def areNbrs(word1, word2):   #determine if two words are neighbors
+   k=0
+   for n in range(6):
+      if word1[n] != word2[n]:
+         k+=1
+   if k==1:
+      return True
+   return False
+
+#asserts
+assert areNbrs('cattle','battle')
+assert areNbrs('battle','castle')==False
+#
+
+def findNbrs(word):   # return a list of neighbors for a given word
+   nbrs=[]
+   for w in wordlist:
+      if areNbrs(word,w)==True:
+         nbrs.append(w)
+   return nbrs
+   
+#test
+print(findNbrs('cattle'))
+print('\n')
+#
+
+def main():
+   nbrs={}
+   degree = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+   maxWords=[]
+   for word in wordlist:
+      nbrs[word]=findNbrs(word)
+      degree[len(nbrs[word])]+=1
+      if len(nbrs[word])==14:
+         print(word,nbrs[word])
+   #output data for each degree
+   print('count for each degree:', degree)
+   print(maxWords)
+   
+   #store the dictionary
+   
+   fout=open('nbrs.pkl','wb')
+   dump(nbrs,fout)
+   fout.close()
+   
+
+#run time
+from time import clock; START_TIME = clock(); main(); print('\n RUN TIME = ')
+print(clock()-START_TIME, 'seconds')

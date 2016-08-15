@@ -1,0 +1,79 @@
+#name: reed zhang date: 9/2/14
+#
+from pickle import dump
+
+print('##name: reed zhang##   ##date: 9/9/14##')
+
+def areNbrs(word1, word2):   #determine if two words are neighbors
+   k=0
+   for n in range(6):
+      if word1[n] != word2[n]:
+         k+=1
+   if k==1:
+      return True
+   return False
+
+def findNbrs(word,list):   # return a list of neighbors for a given word
+   nbrs=[]
+   for w in list:
+      if areNbrs(word,w)==True:
+         nbrs.append(w)
+   return nbrs
+
+def storeDict(list):	#store a dictionary in a file named nbrs.pkl
+   fout=open('nbrs.pkl','wb')
+   dump(list,fout)
+   fout.close()
+
+def generateDegCounts(list,dict):	#generate an array of frequency for each word of n-neighbors
+   degree = [0]*(findMaxNbrs(list)+1)
+   for word in list:
+      degree[len(dict[word])]+=1
+   return degree;
+
+def findMaxNbrs(list):      #finds the max num neighbors
+   maxNbrs=0;
+   for word in list:
+      l=len(findNbrs(word,list))
+      if l>maxNbrs:
+         maxNbrs=l
+   return l
+def printMaxWords(list,dict):      #print the words with the max number of neighbors and their neighbors
+   for word in list:
+      if len(dict[word])==findMaxNbrs(list):
+         print(word,dict[word])
+
+def loadDict():         #load dictionary from file
+   from pickle import load
+   fin=open('nbrs.pkl','rb')
+   list=load(fin)
+   fin.close()
+   return list
+
+def generateNbrList(list):
+   nbrs={}
+   for word in list:
+      nbrs[word]=findNbrs(word,list)
+   return nbrs
+   
+def main():
+   wordlist=open('words.txt').read().split()
+   nbrs=generateNbrList(wordlist)
+   
+   assert areNbrs('battle','cattle')
+   assert areNbrs('battle','castle')==False
+   print(findNbrs('cattle',wordlist),'\n')
+   
+   printMaxWords(wordlist,nbrs)
+   
+   #output data for each degree
+   degreeCount=generateDegCounts(wordlist,nbrs)
+   print('count for each degree:', degreeCount)
+   
+   #storeDict(wordlist)
+
+#run time
+from time import clock
+START_TIME = clock()
+main()
+print('\n RUN TIME = ',clock()-START_TIME, 'seconds')

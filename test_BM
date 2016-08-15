@@ -1,0 +1,4 @@
+import cv2
+for name in dir(cv2):
+   if "BM" in name:
+      print(name)

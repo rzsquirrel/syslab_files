@@ -1,0 +1,8 @@
+from math import *
+terms = [0, 1, 5, 1, 1, 2, 1, 1, 2, 2, 3, 7, 4, 1, 6, 2, 1, 11, 2, 10, 2, 7, 1, 1, 1, 7, 127]
+n = 2
+value = 0
+i = n
+while i>1:
+    value = 1+1/terms[i]
+    i = i-1

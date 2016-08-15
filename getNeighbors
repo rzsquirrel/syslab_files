@@ -1,0 +1,45 @@
+#name: reed zhang date: 9/2/14
+#
+from pickle import dump
+
+def areNbrs(word1, word2):
+  k=0
+  for n in range(6):
+    if word1[n] != word2[n]:
+      k+=1
+  if k==1:
+    return True
+  return False
+wordlist=open('words.txt').read().split()
+#tests
+#print(wordlist)
+#print (areNbrs('cattle','battle'))
+#print (areNbrs('battle','castle'))
+#
+
+def findNbrs(word):
+  nbrs=[]
+  for w in wordlist:
+    if areNbrs(word,w)==True:
+      nbrs.append(w)
+  return nbrs
+#print(findNbrs('cattle'))
+#
+"""
+#get the words with the most neighbors
+maxNbrs=len(nbrList[0])
+for subList in nbrList:
+  if len(subList)>maxNbrs:
+    maxNbrs=len(subList)
+for i in range(len(nbrList)):
+  if len(nbrList[i])== maxNbrs:
+    print(wordlist[i],nbrList[i])
+"""
+nbrs={}
+for word in wordlist:
+  nbrs[word]=findNbrs(word)
+#print(nbrs)
+#stuff
+fout=open('nbrs.pkl','wb')
+dump(nbrs,fout)
+fout.close()
